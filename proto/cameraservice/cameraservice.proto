@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+service HardwareController{
+    rpc TakePicture(PictureConfig) returns (stream Picture) {}
+}
+
+service ServiceController{
+    rpc TakePicture(PictureConfig) returns (PicturePointer) {}
+    rpc GetPicture(PicturePointer) returns (stream Picture) {}
+    rpc DeletePicture(PicturePointer) returns (Empty) {}
+    rpc GetAllPictures(Empty) returns (PicturePointers) {}
+}
+
+enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
+
+message PictureConfig{
+    // format of the returned data
+    DataFormat data_format = 1;
+}
+
+message Empty{
+}
+
+message PicturePointers{
+    repeated PicturePointer picture_pointers = 1;
+}
+
+message Picture{
+    // Date and time at wich the picture was taken in ms Unixstamp
+    int64 shot_time = 1;
+
+    // Taken picture serialzed to a string
+    bytes data = 2;
+
+    // Size of the Picture in Bytes
+    int64 file_size = 3;
+}
+
+message PicturePointer{
+    string uri = 1;
+}

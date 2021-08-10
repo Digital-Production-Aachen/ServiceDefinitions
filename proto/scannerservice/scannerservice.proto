@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+//option go_package = "proto/scannerservice/hardware_controller";
+package scannerservice;
+import "open_vector_format.proto";
+
+service HardwareController{
+	rpc JumpToPosition(Position) returns (Time);
+	rpc ScanWorkPlane(WorkPlaneMessage) returns (Time);
+	rpc GetHardScanField(Empty) returns (ScanFieldConfig);
+}
+
+service ServiceController{
+	rpc JumpToPosition(Position) returns (Time);
+	rpc ScanWorkPlane(WorkPlaneMessage) returns (ProtoPointer);
+	rpc RescanWorkPlane(ProtoPointer) returns (Time);
+	rpc GetScannedWorkPlanes(WorkPlaneMessage) returns (Time);
+	rpc GetScannedWorkPlane(ProtoPointer) returns (WorkPlaneMessage);
+}
+
+message WorkPlaneMessage{
+	open_vector_format.WorkPlane workPlane = 1;
+	map<int32,open_vector_format.MarkingParams> markingparams = 2;
+}
+
+message Empty{
+}
+message ScanFieldConfig{
+	int64 xminimum = 1;
+	int64 xmaximum = 2;
+	int64 yminimum = 3;
+	int64 ymaximum = 4;
+}
+
+message Position{
+	int64 x = 1;
+	int64 y = 2;
+
+}
+message Time{
+    	int64 timestamp = 1;
+}
+
+message ProtoPointer{
+	oneof pointer{
+		string URI = 1;
+		int64 timestamp = 2;
+	}
+}
+

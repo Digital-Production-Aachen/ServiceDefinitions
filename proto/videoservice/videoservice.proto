@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+service HardwareController{
+    rpc startVideo(VideoConfig) returns (stream Video) {}
+}
+
+service ServiceController{
+    rpc startVideo(PictureConfig) returns (VideoPointer) {}
+}
+
+enum Data_format  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
+
+message PictureConfig{
+    // format of the returned data
+    Data_format data_format = 1;
+
+    // specify with wich focus the picture should be taken
+    int32 focus = 2;
+}
+
+
+message Video{
+    // Date and time at wich the picture was taken in ms Unixstamp
+    int64 shot_time = 1;
+    int64 frame_number = 2;
+
+    // Taken picture serialzed to a string
+    bytes data = 2;
+}
+
+message VideoPointer{
+    string URI = 1;
+}
