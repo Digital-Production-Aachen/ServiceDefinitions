@@ -33,11 +33,11 @@ import "google/protobuf/timestamp.proto";
 
 service HardwareController {
   // Get the current position of the rotational axes stage
-  rpc GetPosition (google.protobuf.Empty) returns (RotationalPosition);
+  rpc GetRotationalPosition (google.protobuf.Empty) returns (RotationalPosition);
   // Get the position limits of the rotational axes stage
-  rpc GetPositionLimits (google.protobuf.Empty) returns (RotationalPositionLimit);
+  rpc GetRotationalPositionLimits (google.protobuf.Empty) returns (RotationalPositionLimit);
   // Move to a target position and return the timestamp of completion
-  rpc MoveToPosition (RotationalMoveRequest) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPosition (RotationalMoveRequest) returns (RotationalMoveResponse);
 }
 
 // Position of a rotational axes stage
@@ -71,9 +71,9 @@ message RotationalMoveResponse{
 
 service MoveWithScalarVelocityPlugin {
   // Get the scalar velocity limit of the rotational axes stage
-  rpc GetScalarVelocityLimit(google.protobuf.Empty) returns (RotationalScalarVelocityLimit);
+  rpc GetRotationalScalarVelocityLimit(google.protobuf.Empty) returns (RotationalScalarVelocityLimit);
   // Move to a target position with a scalar velocity and return the timestamp of completion
-  rpc MoveToPositionWithScalarVelocity (RotationalMoveRequestWithScalarVelocity) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPositionWithRotationalScalarVelocity (RotationalMoveRequestWithScalarVelocity) returns (RotationalMoveResponse);
 }
 
 // Minimum and maximum scalar velocity limit (min = 0, max]
@@ -97,9 +97,9 @@ message RotationalScalarVelocity {
 
 service MoveWithVectorVelocityPlugin {
   // Get the vector velocity limit of the rotational axes stage
-  rpc GetVectorVelocityLimit(google.protobuf.Empty) returns (RotationalVectorVelocityLimit);
+  rpc GetRotationalVectorVelocityLimit(google.protobuf.Empty) returns (RotationalVectorVelocityLimit);
   // Move to a target position with a vector velocity and return the timestamp of completion
-  rpc MoveToPositionWithVectorVelocity (RotationalMoveRequestWithVectorVelocity) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPositionWithRotationalVectorVelocity (RotationalMoveRequestWithVectorVelocity) returns (RotationalMoveResponse);
 }
 
 // Vector velocity limits (min = 0, max]
@@ -122,9 +122,9 @@ message RotationalVectorVelocity {
 
 service MoveWithScalarAccelerationPlugin {
   // Get the scalar acceleration limit of the rotational axes stage
-  rpc GetScalarAccelerationLimit(google.protobuf.Empty) returns (RotationalScalarAccelerationLimit);
+  rpc GetRotationalScalarAccelerationLimit(google.protobuf.Empty) returns (RotationalScalarAccelerationLimit);
   // Move to a target position with a scalar velocity and acceleration and return the timestamp of completion
-  rpc MoveToPositionWithScalarAcceleration (RotationalMoveRequestWithScalarAcceleration) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPositionWithRotationalScalarAcceleration (RotationalMoveRequestWithScalarAcceleration) returns (RotationalMoveResponse);
 }
 
 // Minimum and maximum scalar acceleration limit (min = 0, max]
@@ -149,9 +149,9 @@ message RotationalScalarAcceleration {
 
 service MoveWithVectorAccelerationPlugin {
   // Get the vector acceleration limit of the rotational axes stage
-  rpc GetVectorAccelerationLimit(google.protobuf.Empty) returns (RotationalVectorAccelerationLimit);
+  rpc GetRotationalVectorAccelerationLimit(google.protobuf.Empty) returns (RotationalVectorAccelerationLimit);
   // Move to a target position with a vector velocity and acceleration and return the timestamp of completion
-  rpc MoveToPositionWithVectorAcceleration (RotationalMoveRequestWithVectorAcceleration) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPositionWithRotationalVectorAcceleration (RotationalMoveRequestWithVectorAcceleration) returns (RotationalMoveResponse);
 }
 
 // Velocity vector limits (min = 0, max]
@@ -175,9 +175,9 @@ message RotationalVectorAcceleration {
 
 service MoveWithTriggerPlugin {
   // Get the trigger step limit of the rotational axes stage
-  rpc GetTriggerStepLimit(google.protobuf.Empty) returns (RotationalTriggerStepLimit);
+  rpc GetRotationalTriggerStepLimit(google.protobuf.Empty) returns (RotationalTriggerStepLimit);
   // Move to a target position with a scalar velocity and a trigger step and return the timestamp of completion
-  rpc MoveToPositionWithTrigger (RotationalMoveRequestWithTrigger) returns (RotationalMoveResponse);
+  rpc MoveToRotationalPositionWithTrigger (RotationalMoveRequestWithTrigger) returns (RotationalMoveResponse);
 }
 
 // Minimum and maximum trigger step limit
