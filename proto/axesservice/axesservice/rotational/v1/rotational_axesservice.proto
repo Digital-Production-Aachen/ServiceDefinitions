@@ -1,0 +1,211 @@
+// MIT License
+// 
+// Copyright (c) 2021 Corvin Lasogga
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+
+package axesservice.rotational.v1;
+
+option go_package = "coe-sops/proto/axesservice/rotational/axesservice_rotational_v1";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+
+
+service HardwareController {
+  // Get the current position of the rotational axes stage
+  rpc GetPosition (google.protobuf.Empty) returns (RotationalPosition);
+  // Get the position limits of the rotational axes stage
+  rpc GetPositionLimits (google.protobuf.Empty) returns (RotationalPositionLimit);
+  // Move to a target position and return the timestamp of completion
+  rpc MoveToPosition (RotationalMoveRequest) returns (RotationalMoveResponse);
+}
+
+// Position of a rotational axes stage
+message RotationalPosition {
+  repeated double rotational_coordinates_in_rad = 1;
+}
+
+// Positional limits of a rotational axes stage
+message RotationalPositionLimit {
+  repeated RotationalCoordinateLimit coordinate_limits = 1;
+}
+
+// Minimum and maximum positional limit of a coordinate [min, max]
+message RotationalCoordinateLimit {
+  double min_rotational_coordinate_in_rad = 1;
+  double max_rotational_coordinate_in_rad = 2;
+}
+
+// Move request of a rotational axes stage
+message RotationalMoveRequest {
+  RotationalPosition target_position = 1;
+}
+
+// Move response of a rotational axes stage
+message RotationalMoveResponse{
+  google.protobuf.Timestamp start = 1;
+  google.protobuf.Timestamp end = 2;
+}
+
+
+
+service MoveWithScalarVelocityPlugin {
+  // Get the scalar velocity limit of the rotational axes stage
+  rpc GetScalarVelocityLimit(google.protobuf.Empty) returns (RotationalScalarVelocityLimit);
+  // Move to a target position with a scalar velocity and return the timestamp of completion
+  rpc MoveToPositionWithScalarVelocity (RotationalMoveRequestWithScalarVelocity) returns (RotationalMoveResponse);
+}
+
+// Minimum and maximum scalar velocity limit (min = 0, max]
+message RotationalScalarVelocityLimit {
+  double min_rotational_velocity_in_rad_per_sec = 1;
+  double max_rotational_velocity_in_rad_per_sec = 2;
+}
+
+// Move request of a rotational axes stage with a scalar velocity
+message RotationalMoveRequestWithScalarVelocity {
+  RotationalPosition target_position = 1;
+  RotationalScalarVelocity scalar_velocity = 2;
+}
+
+// Scalar velocity
+message RotationalScalarVelocity {
+  double rotational_velocity_in_rad_per_sec = 1;
+}
+
+
+
+service MoveWithVectorVelocityPlugin {
+  // Get the vector velocity limit of the rotational axes stage
+  rpc GetVectorVelocityLimit(google.protobuf.Empty) returns (RotationalVectorVelocityLimit);
+  // Move to a target position with a vector velocity and return the timestamp of completion
+  rpc MoveToPositionWithVectorVelocity (RotationalMoveRequestWithVectorVelocity) returns (RotationalMoveResponse);
+}
+
+// Vector velocity limits (min = 0, max]
+message RotationalVectorVelocityLimit {
+  repeated RotationalScalarVelocityLimit rotational_velocity_component_limits = 1;
+}
+
+// Move request of a rotational axes stage with a vector velocity
+message RotationalMoveRequestWithVectorVelocity {
+  RotationalPosition target_position = 1;
+  RotationalVectorVelocity vector_velocity = 2;
+}
+
+// Vector velocity
+message RotationalVectorVelocity {
+  repeated double rotational_velocity_in_rad_per_sec = 1;
+}
+
+
+
+service MoveWithScalarAccelerationPlugin {
+  // Get the scalar acceleration limit of the rotational axes stage
+  rpc GetScalarAccelerationLimit(google.protobuf.Empty) returns (RotationalScalarAccelerationLimit);
+  // Move to a target position with a scalar velocity and acceleration and return the timestamp of completion
+  rpc MoveToPositionWithScalarAcceleration (RotationalMoveRequestWithScalarAcceleration) returns (RotationalMoveResponse);
+}
+
+// Minimum and maximum scalar acceleration limit (min = 0, max]
+message RotationalScalarAccelerationLimit {
+  double min_rotational_acceleration_in_rad_per_sec_square = 1;
+  double max_rotational_acceleration_in_rad_per_sec_square = 2;
+}
+
+// Move request of a rotational axes stage with a scalar velocity and acceleration
+message RotationalMoveRequestWithScalarAcceleration {
+  RotationalPosition target_position = 1;
+  RotationalScalarVelocity scalar_velocity = 2;
+  RotationalScalarAcceleration scalar_acceleration = 3;
+}
+
+// Scalar acceleration
+message RotationalScalarAcceleration {
+  double rotational_acceleration_in_rad_per_sec_square = 1;
+}
+
+
+
+service MoveWithVectorAccelerationPlugin {
+  // Get the vector acceleration limit of the rotational axes stage
+  rpc GetVectorAccelerationLimit(google.protobuf.Empty) returns (RotationalVectorAccelerationLimit);
+  // Move to a target position with a vector velocity and acceleration and return the timestamp of completion
+  rpc MoveToPositionWithVectorAcceleration (RotationalMoveRequestWithVectorAcceleration) returns (RotationalMoveResponse);
+}
+
+// Velocity vector limits (min = 0, max]
+message RotationalVectorAccelerationLimit {
+  repeated RotationalScalarAccelerationLimit acceleration_component_limits = 1;
+}
+
+// Move request of a rotational axes stage with a vector velocity and acceleration
+message RotationalMoveRequestWithVectorAcceleration {
+  RotationalPosition target_position = 1;
+  RotationalVectorVelocity vector_velocity = 2;
+  RotationalVectorAcceleration vector_acceleration = 3;
+}
+
+// Vector acceleration
+message RotationalVectorAcceleration {
+  repeated double rotational_acceleration_in_rad_per_sec_square = 1;
+}
+
+
+
+service MoveWithTriggerPlugin {
+  // Get the trigger step limit of the rotational axes stage
+  rpc GetTriggerStepLimit(google.protobuf.Empty) returns (RotationalTriggerStepLimit);
+  // Move to a target position with a scalar velocity and a trigger step and return the timestamp of completion
+  rpc MoveToPositionWithTrigger (RotationalMoveRequestWithTrigger) returns (RotationalMoveResponse);
+}
+
+// Minimum and maximum trigger step limit
+message RotationalTriggerStepLimit {
+  double min_rotational_step_size_in_rad = 1;
+  double max_rotational_step_size_in_rad = 2;
+}
+
+// Move request of a rotational axes stage with an axis ID, scalar velocity, scalar acceleration and a trigger step
+message RotationalMoveRequestWithTrigger {
+  RotationalAxisID axis_id = 1;
+  RotationalCoordinate target_coordinate = 2;
+  RotationalScalarVelocity scalar_velocity = 3;
+  RotationalScalarAcceleration scalar_acceleration = 4;
+  RotationalTriggerStep trigger_step = 5;
+}
+
+// Axis ID of a rotational axes stage
+message RotationalAxisID {
+  uint32 id = 1;
+}
+
+// Coordinate of a rotational axes stage
+message RotationalCoordinate {
+  double rotational_coordinate_in_rad = 1;
+}
+
+// Step size between two trigger signals of a rotational axes stage
+message RotationalTriggerStep {
+  double rotational_step_size_in_rad = 1;
+}
