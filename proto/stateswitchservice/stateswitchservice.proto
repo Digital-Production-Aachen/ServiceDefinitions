@@ -32,20 +32,25 @@ import "google/protobuf/timestamp.proto";
 
 service StateSwitchHardwareController
 {
+   // Get the current state of the switches
    rpc GetSwitchStates(google.protobuf.Empty) returns (SwitchStates);
+   // Set the switches to a new state
    rpc SetSwitchStates(SwitchStates) returns (SwitchResponse);
 }
 
+// List of states for multiple switches
 message SwitchStates
 { 
     repeated State switch_states = 1;
 }
 
+// Possible switch states. Can be extended if needed.
 enum State {
         LOW = 0;
         HIGH = 1;
 }
 
+// Response with timestamps for setting swtiches to new state
 message SwitchResponse 
 {
    google.protobuf.Timestamp start = 1;
