@@ -43,6 +43,10 @@ service HardwareController {
 // Position of a rotational axes stage
 message RotationalPosition {
   repeated double rotational_coordinates_in_rad = 1;
+  
+  // mask to indicate which values are valid / should be used.
+  // especially usefull to just move one axis / dimension
+  repeated bool mask = 2;
 }
 
 // Positional limits of a rotational axes stage
