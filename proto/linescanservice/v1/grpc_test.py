@@ -4,22 +4,11 @@ from absl import logging
 from absl.testing import absltest
 from absl.testing import flagsaver
 
-from proto.linescannerservice import linescanservice_pb2
-from proto.linescannerservice import linescanservice_pb2_grpc
-from proto.axesservice import axescontroller_pb2
-from proto.axesservice import axescontroller_pb2_grpc
+from proto.linescanservice.v1 import linescanservice_pb2
+from proto.linescanservice.v1 import linescanservice_pb2_grpc
 
 import grpc
-import os
-import sys
-import _thread
-import time 
-
 import random
-from matplotlib import pyplot as plt
-import numpy as np
-import scipy.misc
-import time
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string(
