@@ -30,7 +30,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 
-service StateSwitchHardwareController
+service HardwareController
 {
    // Get the current state of the switches
    rpc GetSwitchStates(google.protobuf.Empty) returns (SwitchStates);
