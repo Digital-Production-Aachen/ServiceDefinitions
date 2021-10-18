@@ -1,0 +1,95 @@
+// MIT License
+// 
+// Copyright (c) 2021 Corvin Lasogga
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+
+package distancesensorservice.v1;
+
+option go_package = "coe-sops/proto/distancesensorservice/distancesensorservice_v1";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service DistanceSensorController{
+    // Returns the measurement range according to the sensor specification
+    // of the manufacturer.
+    rpc GetMeasuringRange(google.protobuf.Empty) returns (MeasuringRange);
+    // Measures the distance with the required parameters.
+    rpc MeasureDistance(MeasuringRequest) returns (MeasuringResponse);
+}
+
+// Start and end of the measuring range according to the sensor specification
+// of the manufacturer.
+message MeasuringRange {
+    double start_distance_in_mm = 1;
+    double end_distance_in_mm = 2;
+}
+
+// Measuring request with the measuring rate in kHz.
+message MeasuringRequest{
+    float measuring_rate_khz = 1;
+}
+
+// Measuring response with timestamp and distance
+message MeasuringResponse{
+    google.protobuf.Timestamp timestamp = 1;
+    Distance distance = 2;
+}
+
+// Distance in mm as measured by the sensor. The direction depends on the
+// manufacturer.
+message Distance{
+    double distance_in_mm = 1;
+}
+
+service MeasureWithTriggerPlugin{
+    // Measures the distance with the required parameter, when the measurement
+    // is triggered by an external, eletrical trigger signal and forward the
+    // measured distance. The RPC-call must be canceled from client side.
+    rpc MeasureDistanceWithTrigger(MeasuringRequest) returns (stream MeasuringWithTriggerResponse);  
+}
+
+// Measuring response with the measuring state of the hardware, the timestamp,
+// the information about the distance and the distance (and the trigger time
+// difference, if it is supported)
+message MeasuringWithTriggerResponse{
+    HardwareState state = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    DistanceInfo distance_info = 3;
+    Distance distance = 4;
+    google.protobuf.Duration trigger_time_difference = 5;
+}
+
+// State of the hardware, whether it is preparing or ready for an external
+// trigger.
+enum HardwareState {
+    PREPARING = 0;
+    READY_FOR_TRIGGER = 1;
+}
+
+// Information about the measured distance, whether it is invalid or valid.
+enum DistanceInfo {
+    INVALID = 0;
+    VALID = 1;
+}
