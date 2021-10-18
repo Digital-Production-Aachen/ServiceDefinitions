@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package linescanner;
+
+service LinescanControl{
+    rpc ScanWithExternalTrigger(DeviceParams) returns (stream TriggerResponse);
+    rpc ScanWithInternalTrigger(DeviceParams) returns (ProfileData);  
+}
+
+message Empty {}
+
+message TriggerResponse{
+    enum ScanState {
+        HEALTHCHECK = 0;
+        SENDING = 1;
+    }
+    ScanState state = 3;
+    ProfileData data = 2;
+}
+        
+message ProfileData{
+
+    repeated float x = 1;
+    repeated float z = 2;
+}
+
+message DeviceParams{
+   
+    int32 resolution = 1;
+    int32 exposure = 2;   
+}

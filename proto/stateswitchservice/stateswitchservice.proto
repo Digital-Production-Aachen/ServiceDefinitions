@@ -1,0 +1,58 @@
+// MIT License
+// 
+// Copyright (c) 2021 Alexander Meyer
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+
+package stateswitchservice.v1;
+
+option go_package = "coe-sops/proto/axesservice/rotational/stateswitchservice_v1";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service HardwareController
+{
+   // Get the current state of the switches
+   rpc GetSwitchStates(google.protobuf.Empty) returns (SwitchStates);
+   // Set the switches to a new state
+   rpc SetSwitchStates(SwitchStates) returns (SwitchResponse);
+}
+
+// List of states for multiple switches
+message SwitchStates
+{ 
+    repeated State switch_states = 1;
+}
+
+// Possible switch states. Can be extended if needed.
+enum State {
+        LOW = 0;
+        HIGH = 1;
+}
+
+// Response with timestamps for setting swtiches to new state
+message SwitchResponse 
+{
+   google.protobuf.Timestamp start = 1;
+   google.protobuf.Timestamp end = 2;
+}
