@@ -26,6 +26,11 @@ service HardwareController{
     rpc TakePicture(PictureConfig) returns (stream Picture) {}
 }
 
+service ConfigurationController{
+    rpc GetCurrentSettings(Empty) returns (CurrentSettings) {}
+    rpc SetNewSettings(
+}
+
 service ServiceController{
     rpc TakePicture(PictureConfig) returns (PicturePointer) {}
     rpc GetPicture(PicturePointer) returns (stream Picture) {}
