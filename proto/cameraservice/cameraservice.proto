@@ -27,8 +27,9 @@ service HardwareController{
 }
 
 service ConfigurationController{
-    rpc GetCurrentSettings(Empty) returns (CurrentSettings) {}
-    rpc SetNewSettings(
+    rpc GetDefaultSettings(Empty) returns (Settings) {}
+    rpc GetSettingsRange(Empty) returns (SettingsRange) {}
+    rpc TakePictureWithSettings(Settings) returns (stream Picture) {}
 }
 
 service ServiceController{
@@ -39,6 +40,10 @@ service ServiceController{
 }
 
 enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
+
+message Settings{
+    float 
+}
 
 message PictureConfig{
     // format of the returned data
