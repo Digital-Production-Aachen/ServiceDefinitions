@@ -26,7 +26,7 @@ service HardwareController{
     rpc TakePicture(PictureConfig) returns (stream Picture) {}
 }
 
-service HardwareSettingController{
+service SettingsPlugin{
     rpc GetDefaultSettings(Empty) returns (Settings) {}
     rpc GetSettingsRange(Empty) returns (SettingsRange) {}
     rpc TakePictureWithSettings(Settings) returns (stream Picture) {}
@@ -44,6 +44,7 @@ enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
 message Settings{
     float gain_in_dezibel = 1;
     float exposure_time_in_microseconds = 2;
+    PictureConfig picture_config = 3;
 }
 
 message SettingsRange{
