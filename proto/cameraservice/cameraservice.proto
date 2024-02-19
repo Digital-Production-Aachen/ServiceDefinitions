@@ -50,7 +50,7 @@ message SettingsRange{
     float GainLowerLimit = 1;
     float GainUpperLimit = 2;
     float ExposureTimeLowerLimit = 3;
-    float ExposureTimeUpperLimit = 3;
+    float ExposureTimeUpperLimit = 4;
 }
 
 message PictureConfig{
