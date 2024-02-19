@@ -43,14 +43,17 @@ enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
 
 message Settings{
     float Gain = 1;
-    float ExposureTime = 2;
+    float AcquisitionFrameRate = 2;
+    float ExposureTime = 3;
 }
 
 message SettingsRange{
     float GainLowerLimit = 1;
     float GainUpperLimit = 2;
-    float ExposureTimeLowerLimit = 3;
-    float ExposureTimeUpperLimit = 4;
+    float AcquisitionFrameRateLowerLimit = 3;
+    float AcquisitionFrameRateUpperLimit = 4;
+    float ExposureTimeLowerLimit = 5;
+    float ExposureTimeUpperLimit = 6;
 }
 
 message PictureConfig{
