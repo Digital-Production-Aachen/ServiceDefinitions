@@ -42,7 +42,15 @@ service ServiceController{
 enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
 
 message Settings{
-    float 
+    float Gain = 1;
+    float ExposureTime = 2;
+}
+
+message SettingsRange{
+    float GainLowerLimit = 1;
+    float GainUpperLimit = 2;
+    float ExposureTimeLowerLimit = 3;
+    float ExposureTimeUpperLimit = 3;
 }
 
 message PictureConfig{
