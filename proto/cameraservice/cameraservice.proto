@@ -42,18 +42,15 @@ service ServiceController{
 enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
 
 message Settings{
-    float Gain_dB = 1;
-    float ExposureTime_us = 2;
-    float Brightness = 3;
+    float gain_in_dezibel = 1;
+    float exposure_time_in_microseconds = 2;
 }
 
 message SettingsRange{
-    float GainLowerLimit_dB = 1;
-    float GainUpperLimit_dB = 2;
-    float ExposureTimeLowerLimit_us = 3;
-    float ExposureTimeUpperLimit_us = 4;
-    float BrightnessLowerLimit = 5;
-    float BrightnessUpperLimit = 6;
+    float gain_lower_limit_in_dezibel = 1;
+    float gain_upper_limit_in_dezibel = 2;
+    float exposure_time_lower_limit_in_microseconds = 3;
+    float exposure_time_upper_limit_in_microseconds = 4;
 }
 
 message PictureConfig{
