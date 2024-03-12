@@ -26,6 +26,12 @@ service HardwareController{
     rpc TakePicture(PictureConfig) returns (stream Picture) {}
 }
 
+service SettingsPlugin{
+    rpc GetDefaultSettings(Empty) returns (Settings) {}
+    rpc GetSettingsRange(Empty) returns (SettingsRange) {}
+    rpc TakePictureWithSettings(Settings) returns (stream Picture) {}
+}
+
 service ServiceController{
     rpc TakePicture(PictureConfig) returns (PicturePointer) {}
     rpc GetPicture(PicturePointer) returns (stream Picture) {}
@@ -34,6 +40,19 @@ service ServiceController{
 }
 
 enum DataFormat  {PNG = 0; JPG = 1; RAW = 2; BMP = 3;}
+
+message Settings{
+    float gain_in_dezibel = 1;
+    float exposure_time_in_microseconds = 2;
+    PictureConfig picture_config = 3;
+}
+
+message SettingsRange{
+    float gain_lower_limit_in_dezibel = 1;
+    float gain_upper_limit_in_dezibel = 2;
+    float exposure_time_lower_limit_in_microseconds = 3;
+    float exposure_time_upper_limit_in_microseconds = 4;
+}
 
 message PictureConfig{
     // format of the returned data
