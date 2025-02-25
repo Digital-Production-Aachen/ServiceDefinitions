@@ -1,4 +1,4 @@
 module(
-    name = "servicedefintions",
+    name = "servicedefinitions",
     version = "0.0.1",
 )
