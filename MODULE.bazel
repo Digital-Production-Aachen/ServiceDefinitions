@@ -2,4 +2,4 @@ module(
     name = "servicedefinitions",
     version = "0.0.1",
 )
-bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "protobuf", version = "29.3")
