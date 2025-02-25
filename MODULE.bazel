@@ -3,3 +3,10 @@ module(
     version = "0.0.1",
 )
 bazel_dep(name = "protobuf", version = "29.3")
+bazel_dep(name = "ovf", version = "1.7.0")
+
+git_override(
+    module_name = "ovf",
+    remote = "https://github.com/Digital-Production-Aachen/OpenVectorFormat.git",
+    commit = "d624ed6",
+)
