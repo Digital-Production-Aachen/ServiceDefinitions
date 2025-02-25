@@ -2,7 +2,7 @@ module(
     name = "servicedefinitions",
     version = "0.0.1",
 )
-bazel_dep(name = "protobuf", version = "29.3")
+bazel_dep(name = "protobuf", version = "27.2")
 bazel_dep(name = "ovf", version = "1.7.0")
 
 git_override(
