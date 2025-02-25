@@ -1,0 +1,4 @@
+module(
+    name = "servicedefintions",
+    version = "0.0.1",
+)
