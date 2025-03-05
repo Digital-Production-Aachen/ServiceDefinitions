@@ -22,7 +22,7 @@
 
 syntax = "proto3";
 
-//option go_package = "proto/scannerservice/hardware_controller";
+option go_package = "servicedefinitions/proto/scannerservice";
 package scannerservice;
 import "open_vector_format.proto";
 
